@@ -25,6 +25,9 @@ app.use(bodyParser.json());
 var register = require("./routes/register.js");
 var login = require("./routes/login.js");
 
+app.get('/', (req, res) =>{
+    res.send("Backend running...")
+});
 app.use('/register',register);
 app.use('/login',login);
 
