@@ -40,7 +40,7 @@ app.all('*', (req, res, next) => {
 });
 
 // start server
-var port = 5000;
+var port = process.env.PORT || 5000;
 app.listen(port, function(){
     console.log("Server running on "+ port);
 })
