@@ -22,8 +22,8 @@ const cors = require('cors');
 // app.options('*', cors()) // include before other routes
 
 app.use(cors({
-    origin: ['http://localhost', 'https://www.google.com/'],
-    // origin: ['https://www.section.io', 'https://www.google.com/'],
+    // origin: ['http://localhost', 'https://www.google.com/'],
+    origin: ['https://www.section.io', 'https://www.google.com/'],
     // origin: "http://localhost",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: true
