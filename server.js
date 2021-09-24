@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
+app.use(cors());
 
 // connect to db
 dotenv.config({path:'config.env'});
@@ -22,14 +24,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // set routes
-var register = require("./routes/register.js");
-var login = require("./routes/login.js");
-
 app.get('/', (req, res) =>{
     res.send("Backend running...")
 });
+
+var register = require("./routes/register.js");
+var login = require("./routes/login.js");
+var users = require("./routes/users.js");
+
 app.use('/register',register);
 app.use('/login',login);
+app.use('/users',users);
 
 
 app.all('*', (req, res, next) => {
