@@ -1,5 +1,5 @@
 var express = require('express');
-const router = require('./register');
+const router = express.Router();
 var User = require('../models/userModel');
 
 // GET all users

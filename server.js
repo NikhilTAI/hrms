@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-
+const morgan = require('morgan');
 
 // connect to db
 dotenv.config({path:'config.env'});
@@ -31,6 +31,8 @@ app.use(cors({
 //     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
 //     next();
 // });
+
+app.use(morgan('tiny'));
 
 // bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
