@@ -18,11 +18,17 @@ db.once('open', function() {
 var app = express()
 
 const cors = require('cors');
+
+// app.options('*', cors()) // include before other routes
+
 app.use(cors({
-    origin: "http://localhost",
+    origin: ['http://localhost', 'https://www.google.com/'],
+    // origin: ['https://www.section.io', 'https://www.google.com/'],
+    // origin: "http://localhost",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: true
 }));
+
 // Access-Control-Allow-Origin: http://localhost:3000 aa nakhi jo to
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
