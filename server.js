@@ -18,7 +18,11 @@ db.once('open', function() {
 // init app
 var app = express()
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "*",
+    })
+);
 
 // bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
