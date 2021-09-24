@@ -34,7 +34,7 @@ app.get('/', (req, res) =>{
 
 var register = require("./routes/register.js");
 var login = require("./routes/login.js");
-var users = require("./routes/users.js");
+var users = require("./routes/userRoutes.js");
 
 app.use('/register',register);
 app.use('/login',login);

@@ -1,6 +1,6 @@
 var express = require('express');
 const router = require('./register');
-var User = require('../models/user');
+var User = require('../models/userModel');
 
 // GET all users
 router.get('/', (req, res) => {

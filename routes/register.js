@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 // get user model
-var User = require('../models/user');
+var User = require('../models/userModel');
 
 router.post('/', function(req, res){
     User.findOne({email:req.body.email}, function(err, user){
