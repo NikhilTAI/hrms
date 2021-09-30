@@ -5,7 +5,7 @@ var User = require('../models/userModel');
 // GET all users
 router.get('/', (req, res) => {
     // find User and send
-    var usersProjection = { 
+    var usersProjection = {
         __v: false,
         // _id: false,
         password: false
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
         res.status(200).json({
             status: "success",
             users: users
-          });
+        });
     })
 })
 
