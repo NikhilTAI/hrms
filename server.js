@@ -18,16 +18,17 @@ db.once('open', function() {
 var app = express()
 
 const cors = require('cors');
+app.use(cors());
 
-// app.options('*', cors()) // include before other routes
+app.options('*', cors()) // include before other routes
 
-app.use(cors({
-    origin: ['*', 'https://www.google.com/'],
-    // origin: ['https://www.section.io', 'https://www.google.com/'],
-    // origin: "http://localhost",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true
-}));
+// app.use(cors({
+//     origin: ['*', 'https://www.google.com/'],
+//     // origin: ['https://www.section.io', 'https://www.google.com/'],
+//     // origin: "http://localhost",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: true
+// }));
 
 // Access-Control-Allow-Origin: http://localhost:3000 aa nakhi jo to
 // app.use(function(req, res, next) {
