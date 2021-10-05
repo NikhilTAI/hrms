@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
+
+const checkUser = require('./middleware/authMiddleware');
 
 // connect to db
 dotenv.config({path:'config.env'});
@@ -15,30 +16,19 @@ db.once('open', function() {
 });
 
 // init app
-var app = express()
+const app = express()
 
+// cookieParser Middleware
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+// MIDDLEWARES
+// CORS middleware
 const cors = require('cors');
 app.use(cors());
-
 app.options('*', cors()) // include before other routes
 
-// app.use(cors({
-//     origin: ['*', 'https://www.google.com/'],
-//     // origin: ['https://www.section.io', 'https://www.google.com/'],
-//     // origin: "http://localhost",
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     preflightContinue: true
-// }));
-
-// Access-Control-Allow-Origin: http://localhost:3000 aa nakhi jo to
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
-//     res.header("Access-Control-Allow-Credentials", true);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-// });
-
+const morgan = require('morgan');
 app.use(morgan('tiny'));
 
 // bodyParser
@@ -46,17 +36,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // set routes
+app.all('*', checkUser);
 app.get('/', (req, res) =>{
     res.send("Backend running...")
 });
 
-var register = require("./routes/register.js");
-var login = require("./routes/login.js");
-var users = require("./routes/userRoutes.js");
+// const register = require("./routes/registerRoute.js");
+// const login = require("./routes/loginRoute.js");
+const auth = require("./routes/authRoutes.js");
+const users = require("./routes/userRoutes.js");
+const report = require("./routes/reportRoutes.js");
 
-app.use('/register',register);
-app.use('/login',login);
+// app.use('/register',register);
+// app.use('/login',login);
 app.use('/users',users);
+app.use('/reports',report);
+app.use('/',auth);
 
 
 app.all('*', (req, res, next) => {
@@ -67,7 +62,11 @@ app.all('*', (req, res, next) => {
 });
 
 // start server
-var port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, function(){
     console.log("Server running on "+ port);
 })
+
+// TODO
+// mongoose validation
+// Send error msg in response

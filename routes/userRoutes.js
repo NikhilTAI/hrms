@@ -1,16 +1,16 @@
-var express = require('express');
+const express = require('express');
 const router = express.Router();
-var User = require('../models/userModel');
+const User = require('../models/userModel');
 
 // GET all users
 router.get('/', (req, res) => {
     // find User and send
-    var usersProjection = {
+    const projection = {
         __v: false,
         // _id: false,
         password: false
     };
-    User.find({},usersProjection, (err, users) => {
+    User.find({}, projection, (err, users) => {
         if (err) {
             console.log(err);
         }
