@@ -25,16 +25,18 @@ router.get('/', (req, res) => {
 
 // POST report
 router.post('/', function (req, res){
-    if (res.locals.userid == null) {
-        console.log("res.locals: ", res.locals.userid);
+    if (res.locals.userId == null) {
+        console.log("res.locals: ", res.locals.userId);
         res.status(400).json({
             status: "fail...",
             message: "Please login first"
         });
     }else{
         const report = new Report({
-            user: res.locals.userid,
-            task: req.body.task,
+            userId: res.locals.userId,
+            userName: res.locals.userName,
+            taskList: req.body.taskList,
+            taskDesc: req.body.taskDesc,
             hourSpend: req.body.hourSpend,
             status: req.body.status
         });

@@ -3,23 +3,31 @@ const mongoose = require('mongoose');
 
 //report schema
 const ReportSchema = mongoose.Schema({
-    user:{
+    userId:{
         // user reference
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: [true, 'User should be logged in.']
+    },
+    userName:{
+        type: String,
+        required:true
     },
     date:{
         type: Date,
         default: Date.now,
         required:true
     },
-    task:{
+    taskList:{
+        type: String,
+        required:true
+    },
+    taskDesc:{
         type: String,
         required:true
     },
     hourSpend: {
-        type: String,
+        type: Number,
         required: true
     },
     status:{

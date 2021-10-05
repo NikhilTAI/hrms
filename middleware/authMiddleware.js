@@ -15,8 +15,9 @@ const checkUser = function (req, res, next) {
                 res.locals.user = null;
                 next();
             } else {
-                res.locals.userid = decodedToken.userid;
-                console.log("res.locals.userid: ",res.locals.userid);
+                res.locals.userId = decodedToken.userId;
+                res.locals.userName = decodedToken.userName;
+                console.log("res.locals.userid: ",res.locals.userId);
                 next();
             }
         });
