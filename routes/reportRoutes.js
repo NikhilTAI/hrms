@@ -27,16 +27,16 @@ router.get('/dev', (req, res) => {
 
 // POST report
 router.post('/dev', function (req, res){
-    if (req.session.userId == null) {
-        console.log("req.session.userId: ", req.session.userId);
+    if (req.userId == null) {
+        console.log("req.userId: ", req.userId);
         res.status(400).json({
             status: "fail",
             message: "Please login first"
         });
     }else{
         const report = new DevReport({
-            userId: req.session.userId,
-            userName: req.session.userName,
+            userId: req.userId,
+            userName: req.userName,
             taskList: req.body.taskList,
             taskDesc: req.body.taskDesc,
             hourSpent: req.body.hourSpent,
@@ -76,16 +76,16 @@ router.get('/bde', (req, res) => {
 
 // POST report
 router.post('/bde', function (req, res){
-    if (req.session.userId == null) {
-        console.log("req.session.userId: ", req.session.userId);
+    if (req.userId == null) {
+        console.log("req.userId: ", req.userId);
         res.status(400).json({
             status: "fail",
             message: "Please login first"
         });
     }else{
         const report = new BdeReport({
-            userId: req.session.userId,
-            userName: req.session.userName,
+            userId: req.userId,
+            userName: req.userName,
             taskList: req.body.taskList,
             number: req.body.number,
             hourSpent: req.body.hourSpent

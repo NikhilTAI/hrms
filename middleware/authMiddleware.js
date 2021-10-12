@@ -15,14 +15,14 @@ const checkUser = function (req, res, next) {
                 res.locals.user = null;
                 next();
             } else {
-                res.locals.userId = decodedToken.userId;
-                res.locals.userName = decodedToken.userName;
-                console.log("res.locals.userid: ",res.locals.userId);
+                req.userId = decodedToken.userId;
+                req.userName = decodedToken.userName;
+                console.log("req.userid: ",req.userId);
                 next();
             }
         });
     } else {
-        res.locals.user = null;
+        req.userId = null;
         next();
     }
 }
