@@ -66,7 +66,3 @@ const port = process.env.PORT || 5000;
 app.listen(port, function(){
     console.log("Server running on "+ port);
 })
-
-// TODO
-// mongoose validation
-// Send error msg in response
