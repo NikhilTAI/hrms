@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-// const User = require('./userModel');
 
 //report schema
-const ReportSchema = mongoose.Schema({
+const DevReportSchema = mongoose.Schema({
     userId:{
         // user reference
         type: mongoose.Schema.ObjectId,
@@ -26,7 +25,7 @@ const ReportSchema = mongoose.Schema({
         type: String,
         required:true
     },
-    hourSpend: {
+    hourSpent:{
         type: Number,
         required: true
     },
@@ -36,4 +35,4 @@ const ReportSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Report', ReportSchema)
+module.exports = mongoose.model('DevReport', DevReportSchema)
