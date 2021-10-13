@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const DevReport = require('../models/devReportModel');
 const BdeReport = require('../models/bdeReportModel');
+const createError = require('http-errors');
+
 // const User = require('../models/userModel');
 
 const projection = {
@@ -12,7 +14,7 @@ const projection = {
 
 // Dev
 // GET all reports
-router.get('/dev', (req, res) => {
+router.get('/dev', (req, res, next) => {
     // find report and send
     DevReport.find({}, projection, (err, reports) => {
         if (err) {
@@ -26,13 +28,14 @@ router.get('/dev', (req, res) => {
 })
 
 // POST report
-router.post('/dev', function (req, res){
+router.post('/dev', function (req, res, next){
     if (req.userId == null) {
         console.log("req.userId: ", req.userId);
-        res.status(400).json({
-            status: "fail",
-            message: "Please login first"
-        });
+        // res.status(400).json({
+        //     status: "fail",
+        //     message: "Please login first"
+        // });
+        next(createError(401, "Please login first"))
     }else{
         const report = new DevReport({
             userId: req.userId,
@@ -45,10 +48,11 @@ router.post('/dev', function (req, res){
         report.save(function(err){
             if(err){
                 console.log(err.message);
-                res.status(400).json({
-                    status: "fail",
-                    message: err.message
-                });
+                // res.status(400).json({
+                //     status: "fail",
+                //     message: err.message
+                // });
+                next(createError(400, err.message))
             }else{
                 res.status(200).json({
                     status: "success",
@@ -61,7 +65,7 @@ router.post('/dev', function (req, res){
 
 // Bde
 // GET all reports
-router.get('/bde', (req, res) => {
+router.get('/bde', (req, res, next) => {
     // find report and send
     BdeReport.find({}, projection, (err, reports) => {
         if (err) {
@@ -75,13 +79,14 @@ router.get('/bde', (req, res) => {
 })
 
 // POST report
-router.post('/bde', function (req, res){
+router.post('/bde', function (req, res, next){
     if (req.userId == null) {
         console.log("req.userId: ", req.userId);
-        res.status(400).json({
-            status: "fail",
-            message: "Please login first"
-        });
+        // res.status(400).json({
+        //     status: "fail",
+        //     message: "Please login first"
+        // });
+        next(createError(401, "Please login first"))
     }else{
         const report = new BdeReport({
             userId: req.userId,
@@ -93,10 +98,11 @@ router.post('/bde', function (req, res){
         report.save(function(err){
             if(err){
                 console.log(err.message);
-                res.status(400).json({
-                    status: "fail",
-                    message: err.message
-                });
+                // res.status(400).json({
+                //     status: "fail",
+                //     message: err.message
+                // });
+                next(createError(400, err.message))
             }else{
                 res.status(200).json({
                     status: "success",

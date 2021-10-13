@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const createError = require('http-errors');
 
 const checkUser = require('./middleware/authMiddleware');
 
@@ -26,7 +27,7 @@ app.use(cookieParser());
 // CORS middleware
 const cors = require('cors');
 app.use(cors());
-app.options('*', cors()) // include before other routes
+app.options('*', cors());
 
 const morgan = require('morgan');
 app.use(morgan('tiny'));
@@ -41,25 +42,30 @@ app.get('/', (req, res) =>{
     res.send("Backend running...")
 });
 
-// const register = require("./routes/registerRoute.js");
-// const login = require("./routes/loginRoute.js");
 const auth = require("./routes/authRoutes.js");
 const users = require("./routes/userRoutes.js");
 const report = require("./routes/reportRoutes.js");
 
-// app.use('/register',register);
-// app.use('/login',login);
 app.use('/users',users);
 app.use('/reports',report);
 app.use('/',auth);
 
 
 app.all('*', (req, res, next) => {
-    res.status(404).json({
-        status: "fail",
-        message: `Can't find ${req.originalUrl} on this server!`
-    });
+    // res.status(404).json({
+    //     status: "fail",
+    //     message: `Can't find ${req.originalUrl} on this server!`
+    // });
+    // next(new Error("Error"))
+    next(createError.NotFound(`${req.originalUrl} not found!`))
 });
+// error handler
+app.use((err, req, res, next) =>{
+    res.status(err.status || 500).json({
+        status: "fail",
+        message: err.message 
+    })
+})
 
 // start server
 const port = process.env.PORT || 5000;

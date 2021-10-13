@@ -43,7 +43,6 @@ function generateToken(user) {
     expiresIn: "90d",
   };
   const token = jwt.sign(payload, process.env.JWT_SECRET, options);
-
   return token;
 }
 
@@ -71,10 +70,11 @@ router.post('/register', function(req, res){
                     user.save(function(err){
                         if(err){
                             console.log(err);
-                            res.status(400).json({
-                                status: "fail",
-                                message: err.message
-                            });
+                            next(400, err.message)
+                            // res.status(400).json({
+                            //     status: "fail",
+                            //     message: err.message
+                            // });
                         }else{
                             res.status(200).json({
                                 status: "success",
