@@ -27,7 +27,12 @@ const app = express()
 // CORS middleware
 const cors = require('cors');
 app.use(cors());
-app.options('*', cors());
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 
+}
+app.options('*', cors(corsOptions));
+// app.options('*', cors());
 
 const morgan = require('morgan');
 app.use(morgan('tiny'));
