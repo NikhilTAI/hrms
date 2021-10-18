@@ -18,6 +18,7 @@ router.post('/login', (req, res) => {
         res.status(400).json({ message: "Invalid Credentials" });
     } else if (bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
+        // store in redis [user.id:token][age]
         // res.cookie ('jwt',token,{
         //   maxAge: 1000*60*60*24*90, //"90d in ms"
         //   // secure: true,
@@ -92,6 +93,7 @@ router.post('/register', function(req, res){
 router.get('/logout', function (req, res) {
     // res.cookie ('jwt','', {maxAge: 1})
     // add this token to blacklist until they expire
+    // remove from redis
     res.status(200).json({
         status: "success",
         message: `User logout successfully`

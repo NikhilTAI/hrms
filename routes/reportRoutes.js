@@ -4,8 +4,6 @@ const DevReport = require('../models/devReportModel');
 const BdeReport = require('../models/bdeReportModel');
 const createError = require('http-errors');
 
-// const User = require('../models/userModel');
-
 const projection = {
     __v: false,
     // _id: false,

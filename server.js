@@ -20,8 +20,8 @@ db.once('open', function() {
 const app = express()
 
 // cookieParser Middleware
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
+// const cookieParser = require("cookie-parser");
+// app.use(cookieParser());
 
 // MIDDLEWARES
 // CORS middleware
@@ -72,3 +72,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, function(){
     console.log("Server running on "+ port);
 })
+
+// https://youtube.com/playlist?list=PLdHg5T0SNpN0ygjV4yGXNct25jY_ue70U

@@ -1,4 +1,5 @@
 const jwt=require('jsonwebtoken');
+const createError = require('http-errors');
 const User = require('../models/userModel');
 
 const checkUser = function (req, res, next) {
@@ -9,10 +10,11 @@ const checkUser = function (req, res, next) {
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decodedToken){
             if (err) {
-                console.log(err);
+                console.log("ERROR: "+err.message);
                 req.userId = null;
-                next();
+                next(createError.Unauthorized("Invalid token"));
             } else {
+                // compare jwt in redis
                 req.userId = decodedToken.userId;
                 req.userName = decodedToken.userName;
                 console.log("req.userid: ",req.userId);
