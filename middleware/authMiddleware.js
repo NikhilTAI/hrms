@@ -5,9 +5,9 @@ const User = require('../models/userModel');
 const checkUser = function (req, res, next) {
     // const token = req.cookies.jwt;
     const token = req.headers["x-access-token"] || req.headers["authorization"];
-    if (!token) {
-        next(createError.Unauthorized("No token found in header"));
-    }
+    // if (!token) {
+    //     next(createError.Unauthorized("No token found in header"));
+    // }
     // console.log("token: ",token);
     // console.log("req.headers: ",req.headers);
     if (token) {
