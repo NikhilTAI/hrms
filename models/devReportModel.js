@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 //report schema
 const DevReportSchema = mongoose.Schema({
+    _id:{
+        type: String,
+        required: [true, 'Id is required.']
+    },
     userId:{
         // user reference
         type: mongoose.Schema.ObjectId,

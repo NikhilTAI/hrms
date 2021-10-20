@@ -3,7 +3,7 @@ const router = express.Router();
 const DevReport = require('../models/devReportModel');
 const BdeReport = require('../models/bdeReportModel');
 const createError = require('http-errors');
-const { devSchema, bdeSchema } = require('../helpers/validation_schema')
+const { devSchema, bdeSchema } = require('../helpers/validation_schema');
 
 const projection = {
     __v: false,
@@ -28,7 +28,7 @@ router.get('/dev', (req, res, next) => {
 })
 
 // POST report
-router.post('/dev', function (req, res, next){
+router.post('/dev',async function (req, res, next){
     if (req.userId == null) {
         next(createError(401, "Please login first"))
     }else{
@@ -46,27 +46,33 @@ router.post('/dev', function (req, res, next){
                 message: `Validation error`
             });
         } else {
-            for (let i = 0; i < req.body.length; i++) {
-                // console.log(req.body[i])
-                const report = new DevReport({
-                    userId: req.userId,
-                    userName: req.userName,
-                    taskList: req.body[i].taskList,
-                    taskDesc: req.body[i].taskDesc,
-                    hourSpent: req.body[i].hourSpent,
-                    status: req.body[i].status
-                });
-                report.save(function(err){
-                    if(err){
-                        console.log(err.message);
-                        return next(createError(400, err.message))
-                    }
-                });
+            try {
+                for (let i = 0; i < req.body.length; i++) {
+                    const report = new DevReport({
+                        userId: req.userId,
+                        userName: req.userName,
+                        _id: req.body[i].id,
+                        taskList: req.body[i].taskList,
+                        taskDesc: req.body[i].taskDesc,
+                        hourSpent: req.body[i].hourSpent,
+                        status: req.body[i].status
+                    });
+                    await report.save();
+                }
+                res.status(200).json({
+                    status: "success",
+                    message: `Reports added successfully`
+                })
+            } catch (error) {
+                if (error.code === 11000) {
+                    console.log("error...."+error);
+                    next(createError.BadRequest(`Duplicate key error.`))
+                } else {
+                    console.log("error...."+error);
+                    next(createError.BadRequest(`Oops! an error occurred.`))
+                }
+
             }
-            res.status(200).json({
-                status: "success",
-                message: `Reports added successfully`
-            });
         }
     }
 });
@@ -88,7 +94,7 @@ router.get('/bde', (req, res, next) => {
 })
 
 // POST report
-router.post('/bde', function (req, res, next){
+router.post('/bde',async function (req, res, next){
     if (req.userId == null) {
         next(createError(401, "Please login first"))
     }else{
@@ -106,28 +112,35 @@ router.post('/bde', function (req, res, next){
                 message: `Validation error`
             });
         } else {
-            for (let i = 0; i < req.body.length; i++) {
-                // console.log(req.body[i])
-                const report = new BdeReport({
-                    userId: req.userId,
-                    userName: req.userName,
-                    taskList: req.body[i].taskList,
-                    number: req.body[i].number,
-                    hourSpent: req.body[i].hourSpent
-                });
-                report.save(function(err){
-                    if(err){
-                        console.log(err.message);
-                        return next(createError(400, err.message))
-                    }
-                });
+            try {
+                for (let i = 0; i < req.body.length; i++) {
+                    const report = new BdeReport({
+                        userId: req.userId,
+                        userName: req.userName,
+                        _id: req.body[i].id,
+                        taskList: req.body[i].taskList,
+                        number: req.body[i].number,
+                        hourSpent: req.body[i].hourSpent
+                    });
+                    await report.save();
+                }
+                res.status(200).json({
+                    status: "success",
+                    message: `Reports added successfully`
+                })
+            } catch (error) {
+                if (error.code === 11000) {
+                    console.log("error...."+error);
+                    next(createError.BadRequest(`Duplicate key error.`))
+                } else {
+                    console.log("error...."+error);
+                    next(createError.BadRequest(`Oops! an error occurred.`))
+                }
+
             }
-            res.status(200).json({
-                status: "success",
-                message: `Reports added successfully`
-            });
         }
     }
 });
+
 
 module.exports = router;
