@@ -10,7 +10,7 @@ const DevReportSchema = mongoose.Schema({
     },
     userName:{
         type: String,
-        required:true
+        // required:true
     },
     date:{
         type: Date,

@@ -3,13 +3,7 @@ const createError = require('http-errors');
 const User = require('../models/userModel');
 
 const checkUser = function (req, res, next) {
-    // const token = req.cookies.jwt;
     const token = req.headers["x-access-token"] || req.headers["authorization"];
-    // if (!token) {
-    //     next(createError.Unauthorized("No token found in header"));
-    // }
-    // console.log("token: ",token);
-    // console.log("req.headers: ",req.headers);
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decodedToken){
             if (err) {
@@ -19,7 +13,7 @@ const checkUser = function (req, res, next) {
             } else {
                 // compare jwt in redis
                 req.userId = decodedToken.userId;
-                req.userName = decodedToken.userName;
+                // req.userName = decodedToken.userName;
                 console.log("req.userid: ",req.userId);
                 next();
             }
