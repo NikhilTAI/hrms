@@ -11,7 +11,8 @@ const UserSchema = mongoose.Schema({
         required:[true, "Email is required!"]
     },
     designation: {
-        type: String
+        type: String,
+        required: [true, "Designation number is required!"]
     },
     phone:{
         type: String,

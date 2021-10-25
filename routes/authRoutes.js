@@ -20,6 +20,7 @@ router.post('/login', (req, res, next) => {
         res.status(200).json({
             status: "success",
             email: user.email,
+            designation: user.designation,
             token: token
         });
     } else {
@@ -67,7 +68,7 @@ router.post('/register', function(req, res, next){
                 user.save(function(err){
                     if (err) {
                         console.log(err.message);
-                        return next(createError.BadRequest(err.message));
+                        return next(createError.InternalServerError(err.message));
                         // res.status(400).json({
                         //     status: "fail",
                         //     message: err.message
