@@ -1,6 +1,11 @@
 const Joi = require('joi');
 
-const devSchema = Joi.object({
+const userValidSchema = Joi.object({
+    username : Joi.required(),
+    email: Joi.string().email({ tlds: { allow: false } }).lowercase().required(),
+})
+
+const devValidSchema = Joi.object({
     id: Joi.required(),
     taskList: Joi.required(),
     taskDesc: Joi.required(),
@@ -8,7 +13,7 @@ const devSchema = Joi.object({
     status: Joi.required()
 })
 
-const bdeSchema = Joi.object({
+const bdeValidSchema = Joi.object({
     id: Joi.required(),
     taskList: Joi.required(),
     number: Joi.number().required(),
@@ -16,6 +21,7 @@ const bdeSchema = Joi.object({
 })
 
 module.exports = {
-    devSchema,
-    bdeSchema
+    userValidSchema,
+    devValidSchema,
+    bdeValidSchema
 }

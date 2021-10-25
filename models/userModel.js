@@ -15,15 +15,12 @@ const UserSchema = mongoose.Schema({
     },
     phone:{
         type: String,
-        required: true[true, "Phone number is required!"]
+        required: [true, "Phone number is required!"]
     },
     password:{
         type: String,
         required: [true, "Password is required!"]
     }
-    // admin:{
-    //     type: Number,
-    // }
 });
 
 module.exports = mongoose.model('User', UserSchema)

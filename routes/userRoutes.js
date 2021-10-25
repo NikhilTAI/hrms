@@ -4,17 +4,13 @@ const User = require('../models/userModel');
 
 // GET all users
 router.get('/', (req, res) => {
-    // find User and send
     const projection = {
         __v: false,
         // _id: false,
         password: false
     };
     User.find({}, projection, (err, users) => {
-        if (err) {
-            console.log(err);
-        }
-        // console.log(users);
+        if (err) { console.log(err); }
         res.status(200).json({
             status: "success",
             total: users.length,

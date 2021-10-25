@@ -3,7 +3,7 @@ const createError = require('http-errors');
 const User = require('../models/userModel');
 
 const checkUser = function (req, res, next) {
-    const token = req.headers["x-access-token"] || req.headers["authorization"];
+    const token = req.headers["authorization"] // || req.headers["x-access-token"];
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decodedToken){
             if (err) {
@@ -14,7 +14,6 @@ const checkUser = function (req, res, next) {
                 // compare jwt in redis
                 req.userId = decodedToken.userId;
                 // req.userName = decodedToken.userName;
-                console.log("req.userid: ",req.userId);
                 next();
             }
         });
