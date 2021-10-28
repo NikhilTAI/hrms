@@ -105,6 +105,7 @@ router.post('/bde',async function (req, res, next){
                 _id: req.body[i].id,
                 taskList: req.body[i].taskList,
                 number: req.body[i].number,
+                no: req.body[i].no,
                 hourSpent: req.body[i].hourSpent
             });
             await report.save();

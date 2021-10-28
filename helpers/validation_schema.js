@@ -17,6 +17,7 @@ const bdeValidSchema = Joi.object({
     id: Joi.required(),
     taskList: Joi.required(),
     number: Joi.number().required(),
+    no: Joi.number().required(),
     hourSpent: Joi.number().required(),
 })
 

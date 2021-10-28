@@ -26,7 +26,11 @@ const BdeReportSchema = mongoose.Schema({
         type: String,
         required:true
     },
-    number:{
+    no:{
+        type: Number,
+        require: true
+    },
+    number: {
         type: Number,
         required:true
     },

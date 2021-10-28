@@ -12,6 +12,9 @@ const checkUser = function (req, res, next) {
                 next(createError.Unauthorized("Invalid token"));
             } else {
                 // compare jwt in redis
+                // OR
+                // const user = User.findOne({ _id: decodedToken.userId, 'tokens.token': token});
+                // console.log(user)
                 req.userId = decodedToken.userId;
                 // req.userName = decodedToken.userName;
                 next();

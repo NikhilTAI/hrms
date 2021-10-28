@@ -74,4 +74,5 @@ app.listen(port, function(){
 })
 
 // TODO
+// auto set jwt var in postman
 // check ids of reports/make sure id not already exists 
