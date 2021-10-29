@@ -13,6 +13,15 @@ const devValidSchema = Joi.object({
     status: Joi.required()
 })
 
+const desValidSchema = Joi.object({
+    id: Joi.required(),
+    no: Joi.number().required(),
+    taskList: Joi.required(),
+    taskDesc: Joi.required(),
+    hourSpent: Joi.number().required(),
+    status: Joi.required()
+})
+
 const bdeValidSchema = Joi.object({
     id: Joi.required(),
     taskList: Joi.required(),
@@ -24,5 +33,6 @@ const bdeValidSchema = Joi.object({
 module.exports = {
     userValidSchema,
     devValidSchema,
+    desValidSchema,
     bdeValidSchema
 }

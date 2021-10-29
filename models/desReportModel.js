@@ -21,6 +21,10 @@ const DesReportSchema = mongoose.Schema({
         default: Date.now,
         required:true
     },
+    no:{
+        type: Number,
+        require: true
+    },
     taskList:{
         type: String,
         required:true

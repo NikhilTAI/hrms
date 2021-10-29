@@ -4,7 +4,7 @@ const DevReport = require('../models/devReportModel');
 const DesReport = require('../models/desReportModel');
 const BdeReport = require('../models/bdeReportModel');
 const createError = require('http-errors');
-const { devValidSchema, bdeValidSchema } = require('../helpers/validation_schema');
+const { devValidSchema, desValidSchema, bdeValidSchema } = require('../helpers/validation_schema');
 
 const projection = {
     __v: false,
@@ -147,7 +147,7 @@ router.post('/des',async function (req, res, next){
     }
     let validationErrors = [];
     for (let i = 0; i < req.body.length; i++) {
-        const {error, value} = devValidSchema.validate(req.body[i]);
+        const {error, value} = desValidSchema.validate(req.body[i]);
         if (error) { validationErrors.push(error); }
     }
     if (validationErrors.length > 0) {
@@ -160,6 +160,7 @@ router.post('/des',async function (req, res, next){
                 userId: req.userId,
                 userName: req.userName,
                 _id: req.body[i].id,
+                no: req.body[i].no,
                 taskList: req.body[i].taskList,
                 taskDesc: req.body[i].taskDesc,
                 hourSpent: req.body[i].hourSpent,
