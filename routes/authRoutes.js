@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const createError = require('http-errors');
 const { userValidSchema } = require('../helpers/validation_schema');
+const { sendWelcomeMail } = require('../helpers/sendmail');
 const User = require('../models/userModel');
 
 // login
@@ -69,14 +70,14 @@ router.post('/register', function(req, res, next){
                     if (err) {
                         console.log(err.message);
                         return next(createError.InternalServerError(err.message));
-                        // res.status(400).json({
-                        //     status: "fail",
-                        //     message: err.message
-                        // });
                     } else {
+                        // sendWelcomeMail(user.email)
+                        const token = generateToken(user);
                         res.status(200).json({
                             status: "success",
-                            message: `User registerd successfully`
+                            email: user.email,
+                            designation: user.designation,
+                            token: token
                         });
                     }
                 });

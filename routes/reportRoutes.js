@@ -3,13 +3,16 @@ const router = express.Router();
 const DevReport = require('../models/devReportModel');
 const DesReport = require('../models/desReportModel');
 const BdeReport = require('../models/bdeReportModel');
+const User = require('../models/userModel');
+const { reportsByDateDev, reportsByDateDes, reportsByDateBde } = require('../helpers/dailyReports');
 const createError = require('http-errors');
 const { devValidSchema, desValidSchema, bdeValidSchema } = require('../helpers/validation_schema');
+const { sendReportMail } = require('../helpers/sendmail');
 
 const projection = {
     __v: false,
     // _id: false,
-    userId: false
+    // userId: false
 };
 
 // Dev
@@ -28,7 +31,9 @@ router.get('/dev', (req, res, next) => {
 
 // POST report
 router.post('/dev',async function (req, res, next){
-    if (req.userId == null) {
+    console.log("POST /dev");
+    if (req.user == null) {
+        console.log(req.user + "POST dev");
         return next(createError(401, "Please login first"))
     }
     let validationErrors = [];
@@ -43,8 +48,8 @@ router.post('/dev',async function (req, res, next){
     try {
         for (let i = 0; i < req.body.length; i++) {
             const report = new DevReport({
-                userId: req.userId,
-                userName: req.userName,
+                userId: req.user._id,
+                userName: req.user.userName,
                 _id: req.body[i].id,
                 taskList: req.body[i].taskList,
                 taskDesc: req.body[i].taskDesc,
@@ -85,7 +90,7 @@ router.get('/bde', (req, res, next) => {
 
 // POST report
 router.post('/bde',async function (req, res, next){
-    if (req.userId == null) {
+    if (req.user == null) {
         return next(createError(401, "Please login first"))
     }
     let validationErrors = [];
@@ -100,8 +105,8 @@ router.post('/bde',async function (req, res, next){
     try {
         for (let i = 0; i < req.body.length; i++) {
             const report = new BdeReport({
-                userId: req.userId,
-                userName: req.userName,
+                userId: req.user._id,
+                userName: req.user.userName,
                 _id: req.body[i].id,
                 taskList: req.body[i].taskList,
                 number: req.body[i].number,
@@ -142,7 +147,7 @@ router.get('/des', (req, res, next) => {
 
 // POST report
 router.post('/des',async function (req, res, next){
-    if (req.userId == null) {
+    if (req.user == null) {
         return next(createError(401, "Please login first"))
     }
     let validationErrors = [];
@@ -157,8 +162,8 @@ router.post('/des',async function (req, res, next){
     try {
         for (let i = 0; i < req.body.length; i++) {
             const report = new DesReport({
-                userId: req.userId,
-                userName: req.userName,
+                userId: req.user._id,
+                userName: req.user.userName,
                 _id: req.body[i].id,
                 no: req.body[i].no,
                 taskList: req.body[i].taskList,
@@ -183,5 +188,23 @@ router.post('/des',async function (req, res, next){
         }
     }
 });
+
+// Get reports by date
+router.get('/:date?', async (req, res) => {
+    // start and end of day
+    const start = new Date(req.params.date || new Date().toJSON().slice(0, 10));
+    start.setHours(0,0,0,0);
+    const end = new Date(req.params.date || new Date().toJSON().slice(0, 10));
+    end.setHours(23,59,59,999);
+    // console.log("start: "+ start);
+    // console.log("end: "+ end);
+
+    const devReports = await reportsByDateDev(start, end);
+    const desReports = await reportsByDateDes(start, end);
+    const bdeReports = await reportsByDateBde(start, end);
+    // console.log([devReports, desReports, bdeReports]);
+    res.json({devReports, desReports, bdeReports});
+
+})
 
 module.exports = router;

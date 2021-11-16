@@ -6,9 +6,9 @@ const createError = require('http-errors');
 
 const checkUser = require('./middleware/authMiddleware');
 
-// connect to db
 dotenv.config({path:'config.env'});
 
+// connect to db
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -74,5 +74,13 @@ app.listen(port, function(){
 })
 
 // TODO
+// userneme and email should be uniqe
+// designation should only developer/designer/bde
+// validation
+
 // auto set jwt var in postman
-// check ids of reports/make sure id not already exists 
+// check ids of reports/make sure id not already exists
+
+// mail test
+// const { sendReportMail } = require('./helpers/sendmail');
+// sendReportMail()
